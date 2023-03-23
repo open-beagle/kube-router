@@ -13,7 +13,7 @@ require (
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/moby/ipvs v1.0.1
 	github.com/morikuni/aec v1.0.0 // indirect
-	github.com/onsi/ginkgo v1.16.4
+	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.11.0
 	github.com/osrg/gobgp v0.0.0-20210801043420-9e48a36ed97c
 	github.com/prometheus/client_golang v1.11.0
