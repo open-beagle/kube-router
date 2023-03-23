@@ -24,7 +24,6 @@ steps:
       mount:
         - ./.git
         - ./vendor
-        - ./go.sum
       endpoint: http://cache.wodcloud.com
       access_key:
         from_secret: ACCESS_KEY_MINIO
