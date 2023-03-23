@@ -1,0 +1,37 @@
+ARG BASE
+
+FROM $BASE
+
+ARG AUTHOR
+ARG VERSION
+
+LABEL maintainer=$AUTHOR version=$VERSION
+
+RUN apk add --no-cache \
+      iptables \
+      ip6tables \
+      ipset \
+      iproute2 \
+      ipvsadm \
+      conntrack-tools \
+      curl \
+      bash && \
+    mkdir -p /var/lib/gobgp
+
+ARG TARGETOS
+ARG TARGETARCH
+
+COPY build/image-assets/bashrc /root/.bashrc
+COPY build/image-assets/profile /root/.profile
+COPY build/image-assets/vimrc /root/.vimrc
+COPY build/image-assets/motd-kube-router.sh /etc/motd-kube-router.sh
+COPY dist/kube-router-$TARGETOS-$TARGETARCH /usr/local/bin/kube-router
+COPY dist/gobgp-$TARGETOS-$TARGETARCH /usr/local/bin/gobgp
+COPY .beagle/bash_completion.sh /usr/local/share/bash-completion/bash-completion
+
+# Since alpine image doesn't contain /etc/nsswitch.conf, the hosts in /etc/hosts (e.g. localhost)
+# cannot be used. So manually add /etc/nsswitch.conf to work around this issue.
+RUN echo "hosts: files dns" > /etc/nsswitch.conf
+
+WORKDIR /root
+ENTRYPOINT ["/usr/local/bin/kube-router"]
